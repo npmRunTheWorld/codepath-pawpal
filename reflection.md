@@ -4,23 +4,23 @@
 
 **a. Initial design**
 
-The initial UML design (see `.claude/outputs/design-uml.md`) identified five classes:
+I started by mapping out what the app actually needed to do before writing any code. I landed on five classes:
 
-- **Task** — holds a single care activity: title, duration, priority, category, and whether it is mandatory. Responsible only for describing work, not scheduling it.
-- **Owner** — captures the human's constraints: name, how many minutes they have today, and when they want to start. Does not know about pets directly; acts as a time-budget container.
-- **Pet** — metadata about the animal (name, species, age, notes). Purely descriptive; no scheduling logic.
-- **Scheduler** — the stateless engine that receives an Owner, a Pet, and a list of Tasks and returns a `DailyPlan`. All scheduling decisions live here, keeping the other classes simple.
-- **DailyPlan / ScheduledTask** — output objects: `ScheduledTask` wraps a `Task` with assigned start/end times and a reason string; `DailyPlan` groups scheduled and skipped tasks with a summary.
+- **Task**: just describes one care activity. Has a title, how long it takes, priority, category, and a flag for whether it's required no matter what. It doesn't do any scheduling itself.
+- **Owner**: stores the human side of things: their name, how many minutes they have free today, and when they want to start. I kept it separate from pets on purpose so the time budget stays its own thing.
+- **Pet**: basically just a profile: name, species, age, any special notes. No logic, just data.
+- **Scheduler**: this is where all the decision-making lives. It takes an Owner, a Pet, and a list of Tasks and figures out what fits. I wanted all the scheduling rules in one place so the other classes stayed simple.
+- **DailyPlan / ScheduledTask**: the output. A `ScheduledTask` is a task that got a real time slot (start, end, and a reason why it was picked). `DailyPlan` wraps everything up: what got scheduled, what got skipped, and a short summary.
 
-The core design principle was separation of concerns: data classes hold state, `Scheduler` holds logic, and `DailyPlan` holds results.
+The main thing I wanted to avoid was spreading logic around. Data classes hold data, Scheduler makes decisions, DailyPlan carries the results.
 
 **b. Design changes**
 
-During Phase 4 (algorithmic layer), two changes were made:
+Two things changed once I got into Phase 4:
 
-1. **`Task` gained `frequency` and `completed` attributes plus `mark_complete()`.** The initial design treated tasks as static descriptions. Adding recurrence required tasks to know whether they repeat, and `mark_complete()` encapsulates the rule for spawning the next occurrence. This kept the logic on the data object that owns the state, rather than scattering it through the Scheduler.
+1. **Task needed to know about recurrence.** Originally a task was just a description: it had no idea whether it repeated. I added `frequency` ("once", "daily", "weekly"), a `completed` flag, and `mark_complete()`. The method handles the recurrence rule itself: if a task is daily, completing it returns a fresh copy for tomorrow. I put this on Task rather than Scheduler because the task is the thing that "knows" how often it happens.
 
-2. **`Scheduler` gained `sort_by_time()`, `filter_tasks()`, and `detect_conflicts()`.** These were additive — they did not change the existing `schedule()` algorithm. Putting them on `Scheduler` was deliberate: the class already owns time-based reasoning, so these methods belong there rather than as free functions.
+2. **Scheduler got three new methods.** `sort_by_time()`, `filter_tasks()`, and `detect_conflicts()` were all added without touching the original `schedule()` logic. Since Scheduler already deals with time, it made more sense to keep these there than to make them standalone functions.
 
 ---
 
@@ -28,68 +28,68 @@ During Phase 4 (algorithmic layer), two changes were made:
 
 **a. Constraints and priorities**
 
-The scheduler considers three constraints in this order:
+The scheduler looks at three things, in this order:
 
-1. **Mandatory flag** — mandatory tasks (e.g., medication) are always included, even if the owner has no time left. Time budget is ignored for these.
-2. **Priority** — optional tasks are sorted high → medium → low before placement. A high-priority task beats a low-priority task for any remaining time slot.
-3. **Available time** — optional tasks are only scheduled if they fit within the owner's stated available minutes. The first task that doesn't fit is skipped; subsequent tasks of smaller duration are not considered (greedy fit).
+1. **Mandatory flag**: these always go in, no matter how little time is left. Medication can't be skipped because the owner is running behind.
+2. **Priority**: optional tasks get sorted high to low before anything is placed. Higher priority gets first shot at the remaining time.
+3. **Time budget**: an optional task only gets added if its duration fits in what's left. If it doesn't fit, it's skipped.
 
-The mandatory constraint takes precedence because missing a pet's medication has real health consequences, while skipping a grooming session does not.
+I put mandatory first because the consequences of missing a vet-prescribed task are way more serious than skipping enrichment or grooming.
 
 **b. Tradeoffs**
 
-The scheduler uses a **greedy first-fit** algorithm: it places tasks in priority order and skips any task that doesn't fit, without looking ahead or backtracking.
+The scheduler is greedy: it locks in the highest-priority task first and moves on. It never goes back to reconsider.
 
-*Example tradeoff:* If an owner has 30 minutes and there is one high-priority 25-minute walk and two medium-priority 10-minute tasks, the scheduler schedules only the walk (25 min) and skips both 10-minute tasks, leaving 5 minutes unused. A smarter algorithm could skip the walk and fit both 10-minute tasks (20 min total) and waste less time — but deciding which approach is "better" requires knowing the owner's preferences.
+Here's where that bites: say the owner has 30 minutes, a high-priority 25-minute walk, and two medium-priority 10-minute tasks. The scheduler takes the walk (25 min), then both 10-minute tasks don't fit in the 5 minutes left: so they're skipped. Meanwhile, skipping the walk would've let both 10-minute tasks in (20 min total). But that would mean ignoring the priority the user explicitly set, which felt wrong.
 
-This tradeoff is reasonable because priority is the explicit signal the user provides. Overriding a high-priority task to fit lower-priority ones would violate the user's stated intentions. Conflict detection currently checks only for exact time-window overlaps, not buffer time between tasks.
+The other limitation is that conflict detection only flags exact time-window overlaps. It doesn't account for any buffer time between tasks.
 
 ---
 
 ## 3. AI Collaboration
 
-**a. How you used AI**
+**a. How I used AI**
 
-AI was used across all phases:
+I used AI throughout, but differently at each stage:
 
-- **Phase 1 (Design):** Brainstormed the five-class architecture and generated the initial Mermaid.js UML diagram. Prompts like "Given an Owner, Pet, Task, and Scheduler, draw a class diagram showing their relationships" produced a solid starting point.
-- **Phase 2 (Implementation):** Used agent mode to flesh out method bodies. The prompt "#file:pawpal_system.py — implement the Scheduler.schedule() method following the algorithm in the design doc" was effective because it gave the AI a concrete target.
-- **Phase 4 (Algorithms):** Asked "How should mark_complete() handle recurring tasks without adding a date dependency?" to scope the feature to what the data model could support.
-- **Phase 5 (Testing):** Used "What are the most important edge cases for a scheduler with mandatory tasks and time constraints?" to identify the boundary tests (e.g., task exactly filling time, task one minute over).
+- **Phase 1:** I described the four main classes and asked for a Mermaid diagram. It was a good starting point but I had to rearrange some of the relationships.
+- **Phase 2:** I used agent mode and pointed it at my existing file: something like "#file:pawpal_system.py, implement the schedule() method based on this algorithm." Giving it the file context made the output way more usable than generic prompts.
+- **Phase 4:** I asked specifically how to handle recurring tasks without adding a date library dependency. That constraint shaped the design: `mark_complete()` returns a new Task rather than computing a future date.
+- **Phase 5:** I asked for edge cases to test on a scheduler with mandatory tasks and a time budget. It caught the "task one minute over" boundary case I hadn't thought about.
 
 **b. Judgment and verification**
 
-During Phase 4, AI suggested implementing conflict detection by raising an exception when a conflict is found. This was rejected: raising exceptions for scheduling conflicts would crash the app on normal user input (two tasks accidentally at the same time). Instead, `detect_conflicts()` was implemented to return a list of warning strings, letting the UI display them gracefully with `st.warning()`. The test `test_detect_conflicts_flags_overlapping_tasks` verified the warning-based approach works correctly.
+At one point during Phase 4, AI suggested making `detect_conflicts()` raise an exception when it found overlapping tasks. I didn't use that. If two tasks conflict, that's something the user should see and fix: not a crash. I rewrote it to return a list of warning strings instead, and the UI shows those with `st.warning()`. I wrote `test_detect_conflicts_flags_overlapping_tasks` specifically to confirm this version worked before moving on.
 
 ---
 
 ## 4. Testing and Verification
 
-**a. What you tested**
+**a. What I tested**
 
-The test suite covers:
+The test suite ended up covering:
 
-- **Priority scoring** — correct numeric mapping and unknown-priority fallback.
-- **Task completion** — `mark_complete()` sets `completed=True` and returns a new task only for recurring frequencies.
-- **Scheduling correctness** — tasks fit within time, mandatory tasks always included, priority order respected, correct start/end times assigned, no overlaps in sequential output.
-- **Sorting** — `sort_by_time()` returns chronological order.
-- **Recurrence** — daily and weekly tasks produce a new incomplete instance; "once" tasks return None.
-- **Conflict detection** — overlapping windows flagged, adjacent windows not flagged.
-- **Filtering** — completed/incomplete/all subsets returned correctly.
-- **Edge cases** — empty task list, task exactly filling time, task one minute over limit.
+- Priority score mapping (including unknown priority fallbacks)
+- `mark_complete()`: does it actually set the flag? Does it return a new task only when it should?
+- Core scheduling: does time get respected, do mandatory tasks always make it in, does priority order hold, are start/end times right, do tasks overlap?
+- Sorting: does `sort_by_time()` actually return things in order?
+- Recurrence: does daily return a fresh task? Does "once" return None?
+- Conflict detection: overlapping windows flagged, adjacent ones not
+- Filtering: does asking for completed/incomplete/all give the right subset?
+- Edge cases: empty list, task that exactly fills time, task one minute over
 
-These tests matter because scheduling bugs are silent — a wrong start time or a skipped mandatory task doesn't raise an error, it just produces a bad plan the user might not notice.
+I focused on these because scheduling bugs tend to be quiet. A wrong time slot doesn't raise an error: it just gives the user a bad plan.
 
 **b. Confidence**
 
-Confidence level: ★★★★☆ (4/5)
+Confidence level: 4/5
 
-The core scheduling path is well-covered. Edge cases I would test next with more time:
+The main paths are solid. Things I'd want to add with more time:
 
-- Tasks that push past midnight (e.g., 23:00 start + 90-minute task).
-- Multiple mandatory tasks that together exceed available time by a large margin.
-- `filter_tasks()` with a mix of completed and uncompleted recurring tasks.
-- `detect_conflicts()` with three or more overlapping tasks.
+- What happens if tasks run past midnight (e.g., 23:00 start, 90-minute task)?
+- What if several mandatory tasks together go way over the time budget?
+- Filtering on a list where some recurring tasks are done and some aren't
+- Conflict detection with three or more overlapping tasks at once
 
 ---
 
@@ -97,12 +97,12 @@ The core scheduling path is well-covered. Edge cases I would test next with more
 
 **a. What went well**
 
-The separation between the logic layer (`pawpal_system.py`) and the UI (`app.py`) worked very well. Every Phase 4 addition — sorting, filtering, conflict detection — could be developed and tested entirely in `main.py` and `pytest` without touching Streamlit. When the logic was confirmed correct, wiring it into the UI took only a few lines.
+Keeping the logic in `pawpal_system.py` completely separate from the UI paid off in Phase 4. I could test every new method in `main.py` and with pytest before touching `app.py` at all. When I was confident the logic was right, wiring it into Streamlit was only a few lines. That separation made debugging way easier.
 
-**b. What you would improve**
+**b. What I would improve**
 
-The greedy scheduler does not backtrack, which can leave significant time unused. A next iteration would explore a simple knapsack approach: try all combinations of optional tasks that fit within available minutes and pick the highest-priority set. The constraint is that this is O(2^n) in the worst case, so it would need a cap on the number of tasks or a dynamic-programming solution.
+The greedy approach can leave a lot of time on the table. A knapsack-style algorithm: try combinations of optional tasks and pick whichever set has the highest total priority score while fitting in the budget: would be smarter. The catch is it's O(2^n) in the worst case, so I'd need to cap the number of tasks or use dynamic programming to make it practical.
 
 **c. Key takeaway**
 
-The most important lesson was that AI is most useful when given precise, scoped prompts tied to existing code — not open-ended requests. "Generate a scheduler" produces generic boilerplate. "#file:pawpal_system.py — implement sort_by_time() that sorts ScheduledTask objects by their start_time string" produces directly usable code. The lead architect's job is to maintain the design intent and verify that AI output actually satisfies the requirements, not just looks plausible.
+The most useful thing I learned is that being specific with AI prompts matters a lot more than I expected. "Build a scheduler" gives you something generic. "#file:pawpal_system.py, add a sort_by_time() method that sorts ScheduledTask objects by start_time string" gives you something you can actually use. The job isn't just giving instructions: it's making sure the output actually does what the design requires, not just what it looks like it does.
