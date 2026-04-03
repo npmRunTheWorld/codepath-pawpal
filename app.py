@@ -138,6 +138,12 @@ def hhmm_to_dt(hhmm: str) -> datetime:
     return datetime(today.year, today.month, today.day, h, m)
 
 
+def hex_to_rgba(hex_color: str, alpha: float) -> str:
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha})"
+
+
 def build_gantt(plan) -> go.Figure:
     """Build a Plotly Gantt-style day-view chart from a DailyPlan."""
     fig = go.Figure()
@@ -171,7 +177,7 @@ def build_gantt(plan) -> go.Figure:
             type="rect",
             x0=t_start, x1=t_end,
             y0=-0.38, y1=0.38,
-            fillcolor=color + "33",  # 20% opacity fill
+            fillcolor=hex_to_rgba(color, 0.2),
             line_color=color,
             line_width=2,
         )
