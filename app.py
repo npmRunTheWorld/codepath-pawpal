@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 import plotly.graph_objects as go
 from datetime import datetime, date, timedelta
@@ -331,7 +332,12 @@ with left:
             category = st.selectbox("Category", list(CATEGORY_ICONS.keys()))
             duration_preset = st.selectbox("Duration", list(DURATION_PRESETS.keys()), index=3)
             if DURATION_PRESETS[duration_preset] is None:
-                duration = st.number_input("Custom duration (min)", min_value=1, max_value=480, value=20)
+                custom_raw = st.text_input("Custom duration", placeholder="e.g. 25")
+                match = re.search(r"\d+", custom_raw)
+                custom_val = int(match.group()) if match else None
+                if custom_raw and custom_val is None:
+                    st.caption("⚠ Enter a number, e.g. 25")
+                duration = max(1, min(custom_val, 480)) if custom_val else 20
             else:
                 duration = DURATION_PRESETS[duration_preset]
         with c2:
