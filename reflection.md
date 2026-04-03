@@ -69,6 +69,7 @@ At one point during Phase 4, AI suggested making `detect_conflicts()` raise an e
 
 The test suite ended up covering:
 
+- I tested all tests manually, there were a few mistakes that the AI had made. Which i had to manually guide the ai to solve.
 - Priority score mapping (including unknown priority fallbacks)
 - `mark_complete()`: does it actually set the flag? Does it return a new task only when it should?
 - Core scheduling: does time get respected, do mandatory tasks always make it in, does priority order hold, are start/end times right, do tasks overlap?
