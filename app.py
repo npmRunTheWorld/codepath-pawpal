@@ -312,15 +312,15 @@ with left:
     st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem'>Add a Task</div>", unsafe_allow_html=True)
 
     DURATION_PRESETS = {
-        "5 min — Quick check": 5,
-        "10 min — Short activity": 10,
-        "15 min — Feeding": 15,
-        "20 min — Short walk": 20,
-        "30 min — Walk": 30,
-        "45 min — Long walk": 45,
-        "60 min — Play session": 60,
-        "90 min — Vet visit": 90,
-        "120 min — Extended outing": 120,
+        "5 min": 5,
+        "10 min": 10,
+        "15 min": 15,
+        "20 min": 20,
+        "30 min": 30,
+        "45 min": 45,
+        "60 min": 60,
+        "90 min": 90,
+        "120 min": 120,
         "Custom...": None,
     }
 
