@@ -311,12 +311,29 @@ left, right = st.columns([5, 6], gap="large")
 with left:
     st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem'>Add a Task</div>", unsafe_allow_html=True)
 
+    DURATION_PRESETS = {
+        "5 min — Quick check": 5,
+        "10 min — Short activity": 10,
+        "15 min — Feeding": 15,
+        "20 min — Short walk": 20,
+        "30 min — Walk": 30,
+        "45 min — Long walk": 45,
+        "60 min — Play session": 60,
+        "90 min — Vet visit": 90,
+        "120 min — Extended outing": 120,
+        "Custom...": None,
+    }
+
     with st.form("add_task_form", clear_on_submit=True):
         task_title = st.text_input("Task title", placeholder="e.g. Morning walk")
         c1, c2 = st.columns(2)
         with c1:
             category = st.selectbox("Category", list(CATEGORY_ICONS.keys()))
-            duration = st.number_input("Duration (min)", min_value=1, max_value=240, value=20)
+            duration_preset = st.selectbox("Duration", list(DURATION_PRESETS.keys()), index=3)
+            if DURATION_PRESETS[duration_preset] is None:
+                duration = st.number_input("Custom duration (min)", min_value=1, max_value=480, value=20)
+            else:
+                duration = DURATION_PRESETS[duration_preset]
         with c2:
             priority = st.selectbox("Priority", ["high", "medium", "low"])
             frequency = st.selectbox("Frequency", ["once", "daily", "weekly"])
