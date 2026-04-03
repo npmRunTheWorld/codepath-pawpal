@@ -14,14 +14,14 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-.stApp { background: #0f0f13; color: #e8e8f0; }
+.stApp { background: #120e07; color: #f5edd8; }
 
 [data-testid="stSidebar"] {
-    background: #16161e !important;
-    border-right: 1px solid #2a2a38;
+    background: #1d1709 !important;
+    border-right: 1px solid #332a10;
 }
 [data-testid="stSidebar"] label {
-    color: #a0a0b8 !important;
+    color: #a08c5e !important;
     font-size: 0.78rem !important;
     font-weight: 600 !important;
     letter-spacing: 0.05em !important;
@@ -29,32 +29,32 @@ html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
 }
 
 input, textarea, [data-baseweb="select"] {
-    background: #1e1e2a !important;
-    border: 1px solid #2e2e3e !important;
+    background: #261e0b !important;
+    border: 1px solid #3a3014 !important;
     border-radius: 10px !important;
-    color: #e8e8f0 !important;
+    color: #f5edd8 !important;
 }
 input:focus, textarea:focus {
-    border-color: #7c6af7 !important;
-    box-shadow: 0 0 0 2px rgba(124,106,247,0.2) !important;
+    border-color: #e8a020 !important;
+    box-shadow: 0 0 0 2px rgba(232,160,32,0.2) !important;
 }
 
 .stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%) !important;
+    background: linear-gradient(135deg, #e8a020 0%, #fb923c 100%) !important;
     color: white !important;
     border: none !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
     font-size: 0.95rem !important;
     padding: 0.6rem 1.5rem !important;
-    box-shadow: 0 4px 15px rgba(124,106,247,0.35) !important;
+    box-shadow: 0 4px 15px rgba(232,160,32,0.35) !important;
     transition: opacity 0.2s, transform 0.1s !important;
 }
 .stButton > button[kind="primary"]:hover { opacity: 0.9 !important; transform: translateY(-1px) !important; }
 .stButton > button:not([kind="primary"]) {
-    background: #1e1e2a !important;
-    color: #a0a0b8 !important;
-    border: 1px solid #2e2e3e !important;
+    background: #261e0b !important;
+    color: #a08c5e !important;
+    border: 1px solid #3a3014 !important;
     border-radius: 8px !important;
     font-size: 0.8rem !important;
 }
@@ -65,31 +65,31 @@ input:focus, textarea:focus {
 }
 
 [data-testid="stVerticalBlockBorderWrapper"] {
-    background: #16161e !important;
-    border: 1px solid #2a2a38 !important;
+    background: #1d1709 !important;
+    border: 1px solid #332a10 !important;
     border-radius: 14px !important;
 }
 [data-testid="stForm"] {
-    background: #16161e !important;
-    border: 1px solid #2a2a38 !important;
+    background: #1d1709 !important;
+    border: 1px solid #332a10 !important;
     border-radius: 16px !important;
     padding: 1.2rem !important;
 }
 [data-testid="stTabs"] [data-baseweb="tab-list"] {
-    background: #16161e !important;
+    background: #1d1709 !important;
     border-radius: 10px !important;
     padding: 4px !important;
     gap: 4px !important;
 }
 [data-testid="stTabs"] [data-baseweb="tab"] {
     background: transparent !important;
-    color: #6b6b88 !important;
+    color: #7a6846 !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
     font-size: 0.85rem !important;
 }
 [data-testid="stTabs"] [aria-selected="true"] {
-    background: #7c6af7 !important;
+    background: #e8a020 !important;
     color: white !important;
 }
 
@@ -104,16 +104,16 @@ div[data-testid="stWarningMessage"] {
     border-radius: 12px !important; color: #fcd34d !important;
 }
 div[data-testid="stInfoMessage"] {
-    background: rgba(124,106,247,0.1) !important;
-    border: 1px solid rgba(124,106,247,0.25) !important;
-    border-radius: 12px !important; color: #c4b5fd !important;
+    background: rgba(232,160,32,0.08) !important;
+    border: 1px solid rgba(232,160,32,0.25) !important;
+    border-radius: 12px !important; color: #fbbf24 !important;
 }
 
-hr { border-color: #2a2a38 !important; }
-[data-testid="stCheckbox"] label { color: #a0a0b8 !important; font-size: 0.88rem !important; }
+hr { border-color: #332a10 !important; }
+[data-testid="stCheckbox"] label { color: #a08c5e !important; font-size: 0.88rem !important; }
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0f0f13; }
-::-webkit-scrollbar-thumb { background: #2e2e3e; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #120e07; }
+::-webkit-scrollbar-thumb { background: #3a3014; border-radius: 3px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -125,8 +125,8 @@ CATEGORY_ICONS = {
     "enrichment": "🧸", "grooming": "✂️", "other": "📋",
 }
 CATEGORY_COLORS = {
-    "walk": "#7c6af7", "feed": "#22c55e", "meds": "#ef4444",
-    "enrichment": "#f59e0b", "grooming": "#06b6d4", "other": "#a0a0b8",
+    "walk": "#14b8a6", "feed": "#e8a020", "meds": "#f87171",
+    "enrichment": "#fb923c", "grooming": "#c084fc", "other": "#a08c5e",
 }
 PRIORITY_COLORS = {"high": "#ef4444", "medium": "#f59e0b", "low": "#22c55e"}
 
@@ -163,14 +163,14 @@ def build_gantt(plan) -> go.Figure:
         type="rect",
         x0=sched_start, x1=x_end,
         y0=-0.4, y1=0.4,
-        fillcolor="#1e1e2a", line_color="#2a2a38", line_width=1,
+        fillcolor="#261e0b", line_color="#332a10", line_width=1,
         layer="below",
     )
 
     for i, st_task in enumerate(plan.scheduled):
         t_start = hhmm_to_dt(st_task.start_time)
         t_end = hhmm_to_dt(st_task.end_time)
-        color = CATEGORY_COLORS.get(st_task.task.category, "#a0a0b8")
+        color = CATEGORY_COLORS.get(st_task.task.category, "#a08c5e")
         icon = CATEGORY_ICONS.get(st_task.task.category, "📋")
 
         # Task bar
@@ -189,7 +189,7 @@ def build_gantt(plan) -> go.Figure:
             x=[mid], y=[0],
             mode="text",
             text=[f"{icon} {st_task.task.title}"],
-            textfont=dict(color="#e8e8f0", size=12, family="DM Sans"),
+            textfont=dict(color="#f5edd8", size=12, family="DM Sans"),
             hovertemplate=(
                 f"<b>{st_task.task.title}</b><br>"
                 f"{st_task.start_time} – {st_task.end_time}<br>"
@@ -205,23 +205,23 @@ def build_gantt(plan) -> go.Figure:
         fig.add_shape(
             type="line",
             x0=current, x1=current, y0=-0.5, y1=0.5,
-            line=dict(color="#2a2a38", width=1, dash="dot"),
+            line=dict(color="#332a10", width=1, dash="dot"),
             layer="below",
         )
         current += timedelta(hours=1)
 
     fig.update_layout(
-        paper_bgcolor="#16161e",
-        plot_bgcolor="#16161e",
-        font=dict(color="#e8e8f0", family="DM Sans"),
+        paper_bgcolor="#1d1709",
+        plot_bgcolor="#1d1709",
+        font=dict(color="#f5edd8", family="DM Sans"),
         xaxis=dict(
             type="date",
             tickformat="%H:%M",
             showgrid=False,
             zeroline=False,
             range=[sched_start - timedelta(minutes=5), x_end + timedelta(minutes=5)],
-            tickfont=dict(color="#a0a0b8", size=11),
-            linecolor="#2a2a38",
+            tickfont=dict(color="#a08c5e", size=11),
+            linecolor="#332a10",
         ),
         yaxis=dict(
             showticklabels=False,
@@ -244,14 +244,14 @@ with col_logo:
 with col_title:
     st.markdown("""
         <div style='margin-top:4px'>
-            <span style='font-size:2rem;font-weight:700;color:#e8e8f0;letter-spacing:-0.5px'>PawPal</span>
-            <span style='font-size:2rem;font-weight:700;background:linear-gradient(135deg,#7c6af7,#a855f7);
+            <span style='font-size:2rem;font-weight:700;color:#f5edd8;letter-spacing:-0.5px'>PawPal</span>
+            <span style='font-size:2rem;font-weight:700;background:linear-gradient(135deg,#e8a020,#fb923c);
                   -webkit-background-clip:text;-webkit-text-fill-color:transparent'>+</span>
-            <div style='font-size:0.85rem;color:#6b6b88;margin-top:-4px'>Daily pet care planner</div>
+            <div style='font-size:0.85rem;color:#7a6846;margin-top:-4px'>Daily pet care planner</div>
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:1px;background:#2a2a38;margin:1rem 0 1.5rem'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:1px;background:#332a10;margin:1rem 0 1.5rem'></div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
 # Session state
@@ -265,7 +265,7 @@ if "plan" not in st.session_state:
 # Sidebar — owner & pet profile (no user data in HTML)
 # ---------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;padding:0.5rem 0 0.8rem'>Owner Profile</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;padding:0.5rem 0 0.8rem'>Owner Profile</div>", unsafe_allow_html=True)
 
     owner_name = st.text_input("Name", value="Jordan")
     start_time = st.time_input("Start time", value=None)
@@ -285,8 +285,8 @@ with st.sidebar:
             st.metric("End", end_str)
         st.caption(f"{available_minutes} min window")
 
-    st.markdown("<div style='height:1px;background:#2a2a38;margin:1rem 0'></div>", unsafe_allow_html=True)
-    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0 0.8rem'>Pet Profile</div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:1px;background:#332a10;margin:1rem 0'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0 0.8rem'>Pet Profile</div>", unsafe_allow_html=True)
 
     pet_name = st.text_input("Pet's name", value="Mochi")
     species = st.selectbox("Species", ["dog", "cat", "other"])
@@ -310,7 +310,7 @@ left, right = st.columns([5, 6], gap="large")
 
 # ── LEFT: Task input ────────────────────────────────────────────────────────
 with left:
-    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem'>Add a Task</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem'>Add a Task</div>", unsafe_allow_html=True)
 
     DURATION_PRESETS = {
         "5 min": 5,
@@ -358,7 +358,7 @@ with left:
     # Task queue
     if st.session_state.tasks:
         n = len(st.session_state.tasks)
-        st.markdown(f"<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin:1.2rem 0 0.6rem'>Queue · {n} task{'s' if n != 1 else ''}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;margin:1.2rem 0 0.6rem'>Queue · {n} task{'s' if n != 1 else ''}</div>", unsafe_allow_html=True)
 
         for i, task in enumerate(st.session_state.tasks):
             icon = CATEGORY_ICONS.get(task.category, "📋")
@@ -401,8 +401,8 @@ with right:
             st.markdown("""
                 <div style='text-align:center;padding:3rem 1rem'>
                     <div style='font-size:3rem'>📅</div>
-                    <div style='font-size:1rem;font-weight:600;color:#e8e8f0;margin-top:0.8rem'>No plan yet</div>
-                    <div style='font-size:0.82rem;color:#6b6b88;margin-top:0.3rem'>Add tasks and hit Generate Schedule</div>
+                    <div style='font-size:1rem;font-weight:600;color:#f5edd8;margin-top:0.8rem'>No plan yet</div>
+                    <div style='font-size:0.82rem;color:#7a6846;margin-top:0.3rem'>Add tasks and hit Generate Schedule</div>
                 </div>
             """, unsafe_allow_html=True)
     else:
@@ -412,13 +412,13 @@ with right:
         n_sched = len(plan.scheduled)
 
         with st.container(border=True):
-            st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem'>Today's Plan</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem'>Today's Plan</div>", unsafe_allow_html=True)
             ca, cb = st.columns([3, 2])
             with ca:
                 st.markdown(f"**{n_sched} task{'s' if n_sched != 1 else ''} scheduled**")
             with cb:
-                st.markdown(f"<div style='text-align:right;font-size:0.82rem;color:#6b6b88'>{total} / {plan.owner.available_minutes} min</div>", unsafe_allow_html=True)
-            st.markdown(f"<div style='background:#2a2a38;border-radius:99px;height:6px;margin-top:0.3rem'><div style='background:{bar_color};width:{pct}%;height:100%;border-radius:99px'></div></div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='text-align:right;font-size:0.82rem;color:#7a6846'>{total} / {plan.owner.available_minutes} min</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background:#332a10;border-radius:99px;height:6px;margin-top:0.3rem'><div style='background:{bar_color};width:{pct}%;height:100%;border-radius:99px'></div></div>", unsafe_allow_html=True)
 
         for warning in scheduler.detect_conflicts(plan.scheduled):
             st.warning(f"⚠️ {warning}")
@@ -442,11 +442,11 @@ with right:
                             st.markdown(f"{icon} **{st_task.task.title}**{tag_str}")
                             st.caption(st_task.reason)
                         with c2:
-                            st.markdown(f"<div style='text-align:right;font-size:0.88rem;font-weight:600;color:#c4b5fd'>{st_task.start_time} – {st_task.end_time}</div>", unsafe_allow_html=True)
+                            st.markdown(f"<div style='text-align:right;font-size:0.88rem;font-weight:600;color:#fbbf24'>{st_task.start_time} – {st_task.end_time}</div>", unsafe_allow_html=True)
                             st.caption(f"{st_task.task.duration_minutes} min")
 
             if plan.skipped:
-                st.markdown(f"<div style='font-size:0.7rem;font-weight:700;color:#6b6b88;letter-spacing:0.12em;text-transform:uppercase;margin:1.2rem 0 0.5rem'>Skipped · {len(plan.skipped)}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='font-size:0.7rem;font-weight:700;color:#7a6846;letter-spacing:0.12em;text-transform:uppercase;margin:1.2rem 0 0.5rem'>Skipped · {len(plan.skipped)}</div>", unsafe_allow_html=True)
                 for task in plan.skipped:
                     icon = CATEGORY_ICONS.get(task.category, "📋")
                     with st.container(border=True):
@@ -460,11 +460,11 @@ with right:
             if not plan.scheduled:
                 st.info("No scheduled tasks to display.")
             else:
-                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7c6af7;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.6rem'>Day Timeline</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#e8a020;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.6rem'>Day Timeline</div>", unsafe_allow_html=True)
                 st.plotly_chart(build_gantt(plan), use_container_width=True, config={"displayModeBar": False})
 
                 # Legend
-                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#6b6b88;letter-spacing:0.12em;text-transform:uppercase;margin:0.8rem 0 0.4rem'>Categories</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7a6846;letter-spacing:0.12em;text-transform:uppercase;margin:0.8rem 0 0.4rem'>Categories</div>", unsafe_allow_html=True)
                 cols = st.columns(len(CATEGORY_COLORS))
                 for col, (cat, color) in zip(cols, CATEGORY_COLORS.items()):
                     with col:
@@ -473,14 +473,14 @@ with right:
                         st.markdown(f"<div style='text-align:center;font-size:0.7rem;color:{color};font-weight:600'>{cat}</div>", unsafe_allow_html=True)
 
                 # Task breakdown below chart
-                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#6b6b88;letter-spacing:0.12em;text-transform:uppercase;margin:1rem 0 0.4rem'>Task Breakdown</div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:0.7rem;font-weight:700;color:#7a6846;letter-spacing:0.12em;text-transform:uppercase;margin:1rem 0 0.4rem'>Task Breakdown</div>", unsafe_allow_html=True)
                 for st_task in scheduler.sort_by_time(plan.scheduled):
-                    color = CATEGORY_COLORS.get(st_task.task.category, "#a0a0b8")
+                    color = CATEGORY_COLORS.get(st_task.task.category, "#a08c5e")
                     icon = CATEGORY_ICONS.get(st_task.task.category, "📋")
                     c1, c2, c3 = st.columns([3, 2, 1])
                     with c1:
                         st.markdown(f"{icon} **{st_task.task.title}**")
                     with c2:
-                        st.markdown(f"<span style='color:#c4b5fd;font-size:0.85rem'>{st_task.start_time} – {st_task.end_time}</span>", unsafe_allow_html=True)
+                        st.markdown(f"<span style='color:#fbbf24;font-size:0.85rem'>{st_task.start_time} – {st_task.end_time}</span>", unsafe_allow_html=True)
                     with c3:
                         st.caption(f"{st_task.task.duration_minutes} min")
